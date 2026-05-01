@@ -62,6 +62,7 @@ export default function VersionsPage() {
               <div className="version-card glass-card" onClick={() => setExpanded(isOpen ? '' : v.version)}>
                 <div className="version-header">
                   <div className="version-title-area">
+                    <img src={`/version-logos/v${v.version.replace('.', '')}.png`} className="version-logo" alt={`${v.codename} logo`} />
                     <h2 className="version-number">v{v.version}</h2>
                     <span className="version-codename">"{v.codename}"</span>
                     <span className={`version-status ${vs.cls}`}>{vs.label}</span>

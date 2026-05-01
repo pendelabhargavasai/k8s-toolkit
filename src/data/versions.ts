@@ -16,7 +16,7 @@ export interface K8sVersion {
 export const k8sVersions: K8sVersion[] = [
   {
     version: '1.36',
-    codename: 'Starship',
+    codename: 'Haru',
     releaseDate: 'April 2026',
     status: 'current',
     highlights: [
@@ -34,7 +34,7 @@ export const k8sVersions: K8sVersion[] = [
   },
   {
     version: '1.35',
-    codename: 'Nebula',
+    codename: 'Timbernetes',
     releaseDate: 'December 2025',
     status: 'supported',
     highlights: [
@@ -51,7 +51,7 @@ export const k8sVersions: K8sVersion[] = [
   },
   {
     version: '1.34',
-    codename: 'Horizon',
+    codename: "O'WaW",
     releaseDate: 'August 2025',
     status: 'supported',
     highlights: [
@@ -67,7 +67,7 @@ export const k8sVersions: K8sVersion[] = [
   },
   {
     version: '1.33',
-    codename: 'Orbit',
+    codename: 'Octarine',
     releaseDate: 'April 2025',
     status: 'supported',
     highlights: [
