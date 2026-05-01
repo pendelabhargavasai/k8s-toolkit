@@ -1,0 +1,252 @@
+.versions-page {
+  padding-top: var(--header-height);
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 60px;
+}
+
+.versions-page .page-header {
+  text-align: center;
+  padding: 40px 0 32px;
+}
+
+.versions-page .page-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Timeline */
+.version-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.version-item {
+  display: flex;
+  gap: 24px;
+  position: relative;
+}
+
+.timeline-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--text-muted);
+  background: var(--bg-primary);
+  z-index: 1;
+  flex-shrink: 0;
+  margin-top: 22px;
+  transition: all 0.3s;
+}
+
+.timeline-dot.vs-current {
+  border-color: var(--green);
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.4);
+}
+
+.timeline-dot.vs-supported {
+  border-color: var(--blue);
+  background: var(--blue);
+  box-shadow: 0 0 12px rgba(50, 108, 229, 0.3);
+}
+
+.timeline-dot.vs-eol {
+  border-color: var(--text-muted);
+  background: var(--text-muted);
+}
+
+.timeline-line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(to bottom, var(--glass-border), transparent);
+  margin-top: 4px;
+}
+
+.version-card {
+  flex: 1;
+  padding: 24px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.version-card:hover {
+  border-color: var(--glass-border-hover);
+}
+
+.version-item.open .version-card {
+  border-color: rgba(50, 108, 229, 0.3);
+  box-shadow: 0 0 24px rgba(50, 108, 229, 0.08);
+}
+
+.version-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.version-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.version-number {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-primary), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.version-codename {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.version-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.version-status.vs-current { color: var(--green); }
+.version-status.vs-supported { color: var(--blue); }
+.version-status.vs-eol { color: var(--text-muted); }
+
+.version-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.expand-icon {
+  color: var(--text-muted);
+  margin-left: 8px;
+  transition: transform 0.3s;
+}
+
+.version-highlights {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.version-highlights li {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding-left: 16px;
+  position: relative;
+}
+
+.version-highlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+}
+
+/* Features */
+.version-features {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+  animation: slide-down 0.3s ease;
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.version-features h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.features-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-row {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  transition: background 0.2s;
+}
+
+.feature-row:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.feature-row .badge {
+  flex-shrink: 0;
+  min-width: 90px;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.feature-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-info strong {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.feature-info span {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.features-legend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+@media (max-width: 767px) {
+  .versions-page { padding-left: 16px; padding-right: 16px; }
+  .version-item { gap: 12px; }
+  .version-header { flex-direction: column; align-items: flex-start; }
+  .version-number { font-size: 1.2rem; }
+}

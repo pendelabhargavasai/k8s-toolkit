@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  k8s-toolkit:
+    build: .
+    container_name: k8s-toolkit
+    ports:
+      - "8080:80"
+    restart: always
