@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Search, Star, ExternalLink, Share2, ChevronRight } from 'lucide-react';
+import { Search, Star, ExternalLink, Share2, ChevronRight, Check } from 'lucide-react';
 import { toolCategories } from '../data/tools';
 import './ToolsPage.css';
 
 export default function ToolsPage() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [copiedTool, setCopiedTool] = useState<string | null>(null);
 
   const filteredCategories = useMemo(() => {
     return toolCategories.map(cat => ({
@@ -27,6 +28,15 @@ export default function ToolsPage() {
   const formatStars = (n: number) => {
     if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
     return n.toString();
+  };
+
+  const handleShare = (tool: any) => {
+    const link = tool.github ? `https://github.com/${tool.github}` : tool.website || '';
+    if (link) {
+      navigator.clipboard.writeText(link);
+      setCopiedTool(tool.name);
+      setTimeout(() => setCopiedTool(null), 2000);
+    }
   };
 
   return (
@@ -107,8 +117,9 @@ export default function ToolsPage() {
                           <ExternalLink size={14} /> GitHub
                         </a>
                       )}
-                      <button className="btn btn-ghost btn-sm" onClick={() => navigator.clipboard.writeText(tool.github ? `https://github.com/${tool.github}` : tool.website || '')}>
-                        <Share2 size={14} /> Share
+                      <button className="btn btn-ghost btn-sm" onClick={() => handleShare(tool)}>
+                        {copiedTool === tool.name ? <Check size={14} className="text-green" /> : <Share2 size={14} />} 
+                        {copiedTool === tool.name ? 'Copied' : 'Share'}
                       </button>
                       {tool.stars ? (
                         <span className="tool-upvote">
