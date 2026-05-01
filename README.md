@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# K8s Tool Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A comprehensive web-based dashboard for discovering, managing, and understanding Kubernetes tools and plugins.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Tools Directory**: Browse 100+ Kubernetes tools categorized by function.
+- **Plugin Catalog**: Explore `kubectl` plugins for extended cluster management.
+- **Version Tracker**: Detailed feature changelog for Kubernetes releases (1.27-1.36).
+- **Architecture Explorer**: Visual map of control plane components.
+- **Responsive Design**: Modern, dark-themed UI built with React and TypeScript.
+- **End to End Type-Safe Dashboard**: All components and pages are type-safe.
+- **Project Structure**: Clean and organized project structure.
+- **E2E Testing**: All pages are tested and verified.
+- **Components & Hooks**: Reusable components and hooks for easy customization.
+- **Performance**: Optimized for performance and user experience.
+- **Accessibility**:  for all users.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS
+- **Icons**: Lucide React
+- **Deployment**: Docker-ready with Nginx
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
+- Node.js >= 18
+- npm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
+```bash
+npm run dev
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Build for Production
+```bash
+npm run build
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Run in Docker
+```bash
+docker build -t k8s-toolkit .
+docker run -p 8080:80 k8s-toolkit
 ```
