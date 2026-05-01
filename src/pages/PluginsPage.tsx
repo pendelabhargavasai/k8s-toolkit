@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Copy, Check, ExternalLink, Star, Terminal, Download, Package } from 'lucide-react';
 import { plugins } from '../data/plugins';
 import './PluginsPage.css';
 
 export default function PluginsPage() {
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') || '');
   const [filter, setFilter] = useState<string>('all');
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) {
+      setSearch(q);
+      setFilter('all');
+    }
+  }, [searchParams]);
 
   const filtered = plugins.filter(p => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||

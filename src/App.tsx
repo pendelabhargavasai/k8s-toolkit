@@ -13,6 +13,7 @@ import BestPracticesPage from './pages/BestPracticesPage';
 import TroubleshootingPage from './pages/TroubleshootingPage';
 import CostCalculatorPage from './pages/CostCalculatorPage';
 import CheatSheetPage from './pages/CheatSheetPage';
+import SearchModal from './components/SearchModal';
 
 function App() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -37,18 +38,7 @@ function App() {
 
         {/* Search Modal (Cmd+K) */}
         {searchOpen && (
-          <div className="search-modal-backdrop" onClick={() => setSearchOpen(false)}>
-            <div className="search-modal" onClick={e => e.stopPropagation()}>
-              <input
-                className="search-modal-input"
-                placeholder="Search tools, plugins, versions..."
-                autoFocus
-              />
-              <div className="search-modal-hint">
-                <kbd>Esc</kbd> to close
-              </div>
-            </div>
-          </div>
+          <SearchModal onClose={() => setSearchOpen(false)} />
         )}
 
         <Routes>

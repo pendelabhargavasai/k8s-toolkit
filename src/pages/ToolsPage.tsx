@@ -1,12 +1,22 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Star, ExternalLink, Share2, ChevronRight, Check } from 'lucide-react';
 import { toolCategories } from '../data/tools';
 import './ToolsPage.css';
 
 export default function ToolsPage() {
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') || '');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [copiedTool, setCopiedTool] = useState<string | null>(null);
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) {
+      setSearch(q);
+      setActiveCategory(null);
+    }
+  }, [searchParams]);
 
   const filteredCategories = useMemo(() => {
     return toolCategories.map(cat => ({
