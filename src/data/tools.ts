@@ -41,6 +41,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Portainer', description: 'Making Docker and Kubernetes management easy', github: 'portainer/portainer', stars: 29000 },
       { name: 'Headlamp', description: 'An easy-to-use and extensible Kubernetes web UI', github: 'headlamp-k8s/headlamp', stars: 2100 },
       { name: 'kOps', description: 'Kubernetes Operations - production Grade K8s Installation, Upgrades, and Management', github: 'kubernetes/kops', stars: 15700 },
+      { name: 'Skooner', description: 'Simple Kubernetes real-time dashboard and management tool', github: 'skooner-k8s/skooner', stars: 1300 },
+      { name: 'Kubernetes Dashboard', description: 'General-purpose web UI for Kubernetes clusters — the official dashboard', github: 'kubernetes/dashboard', stars: 14000 },
+      { name: 'OpenLens', description: 'The open source version of Lens — community-driven Kubernetes IDE', github: 'MuhammedKalworzi/lens', stars: 6500 },
     ]
   },
   {
@@ -54,6 +57,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Alertmanager', description: 'Handles alerts sent by client applications such as Prometheus', github: 'prometheus/alertmanager', stars: 6300 },
       { name: 'Karma', description: 'Alert dashboard for Prometheus Alertmanager', github: 'prymitive/karma', stars: 2200 },
       { name: 'Robusta', description: 'Kubernetes observability and automation platform', github: 'robusta-dev/robusta', stars: 2400 },
+      { name: 'Mimir', description: 'Grafana Mimir provides horizontally scalable, highly available, multi-tenant long-term storage for Prometheus', github: 'grafana/mimir', stars: 3800 },
+      { name: 'VictoriaMetrics', description: 'Fast, cost-effective monitoring solution and time series database compatible with Prometheus', github: 'VictoriaMetrics/VictoriaMetrics', stars: 11000 },
+      { name: 'Coroot', description: 'eBPF-powered observability tool that turns telemetry data into actionable insights', github: 'coroot/coroot', stars: 4800 },
     ]
   },
   {
@@ -67,6 +73,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Jaeger', description: 'Open source distributed tracing platform', github: 'jaegertracing/jaeger', stars: 19800, featured: true },
       { name: 'Tempo', description: 'Grafana Tempo is a high volume distributed tracing backend', github: 'grafana/tempo', stars: 3700 },
       { name: 'Elastic (ELK)', description: 'Elasticsearch, Logstash, Kibana - the open source search and analytics suite', website: 'https://www.elastic.co/', stars: 0 },
+      { name: 'SigNoz', description: 'Open-source observability platform with logs, traces, and metrics in a single pane — OpenTelemetry native', github: 'SigNoz/signoz', stars: 17000, featured: true },
+      { name: 'Vector', description: 'High-performance observability data pipeline for logs, metrics, and traces', github: 'vectordotdev/vector', stars: 16500 },
+      { name: 'Grafana Alloy', description: 'OpenTelemetry Collector distribution with built-in Prometheus and Loki pipelines', github: 'grafana/alloy', stars: 1200 },
     ]
   },
   {
@@ -95,6 +104,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Telepresence', description: 'Local development against a remote Kubernetes or OpenShift cluster', github: 'telepresenceio/telepresence', stars: 6300 },
       { name: 'Minikube', description: 'Run Kubernetes locally', github: 'kubernetes/minikube', stars: 28800 },
       { name: 'Kind', description: 'Kubernetes IN Docker - local clusters for testing Kubernetes', github: 'kubernetes-sigs/kind', stars: 12900 },
+      { name: 'Nocalhost', description: 'Cloud-native development tool that provides real-time cloud-native coding in K8s', github: 'nocalhost/nocalhost', stars: 1700 },
+      { name: 'Garden', description: 'Automation platform for Kubernetes development and testing — fast inner dev loop', github: 'garden-io/garden', stars: 3200 },
+      { name: 'Okteto', description: 'Develop your applications directly in Kubernetes with instant hot reloading', github: 'okteto/okteto', stars: 3300 },
     ]
   },
   {
@@ -109,6 +121,10 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Kyverno', description: 'Kubernetes Native Policy Management', github: 'kyverno/kyverno', stars: 5200 },
       { name: 'cert-manager', description: 'Automatically provision and manage TLS certificates in Kubernetes', github: 'cert-manager/cert-manager', stars: 11600 },
       { name: 'Vault', description: 'A tool for secrets management, encryption as a service, and privileged access management', github: 'hashicorp/vault', stars: 30000 },
+      { name: 'KubeArmor', description: 'eBPF-based runtime security enforcement system for Kubernetes — restricts process/file/network behavior', github: 'kubearmor/KubeArmor', stars: 1300 },
+      { name: 'NeuVector', description: 'Full lifecycle container security platform with runtime protection and network segmentation', github: 'neuvector/neuvector', stars: 900 },
+      { name: 'Snyk Container', description: 'Container and Kubernetes security scanning integrated into your CI/CD pipeline', website: 'https://snyk.io/product/container-vulnerability-management/', stars: 0 },
+      { name: 'AccuKnox', description: 'Zero Trust security platform integrating KubeArmor for runtime threat enforcement on K8s', website: 'https://accuknox.com/', stars: 0 },
     ]
   },
   {
@@ -122,11 +138,14 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Jenkins X', description: 'Jenkins X provides automated CI+CD for Kubernetes', github: 'jenkins-x/jx', stars: 4500 },
       { name: 'Argo Rollouts', description: 'Progressive Delivery for Kubernetes', github: 'argoproj/argo-rollouts', stars: 2600 },
       { name: 'Spinnaker', description: 'Multi-cloud continuous delivery platform for releasing software', github: 'spinnaker/spinnaker', stars: 9200 },
+      { name: 'Keptn', description: 'Cloud-native application life-cycle orchestration with SLO-based quality gates', github: 'keptn/lifecycle-toolkit', stars: 1900 },
+      { name: 'PipeCD', description: 'Continuous delivery platform for declarative Kubernetes, Terraform, and Cloud Run deployments', github: 'pipe-cd/pipecd', stars: 1000 },
+      { name: 'Codefresh', description: 'GitOps-powered CI/CD platform built on Argo for Kubernetes deployments', website: 'https://codefresh.io/', stars: 0 },
     ]
   },
   {
     id: 'network-policies',
-    name: 'Network Policies',
+    name: 'Network & CNI',
     icon: '🌐',
     tools: [
       { name: 'Calico', description: 'Cloud native networking and network security', github: 'projectcalico/calico', stars: 5600, featured: true },
@@ -134,6 +153,22 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Flannel', description: 'A network fabric for containers, designed for Kubernetes', github: 'flannel-io/flannel', stars: 8600 },
       { name: 'MetalLB', description: 'A network load-balancer implementation for Kubernetes using standard routing protocols', github: 'metallb/metallb', stars: 6700 },
       { name: 'Network Policy Editor', description: 'Create, visualize, and share Kubernetes NetworkPolicies', website: 'https://editor.networkpolicy.io/', stars: 0 },
+      { name: 'Multus CNI', description: 'Multi-homed pod networking — attach multiple network interfaces to Kubernetes pods', github: 'k8snetworkplumbingwg/multus-cni', stars: 2200 },
+      { name: 'Kube-OVN', description: 'Advanced Kubernetes network fabric integrating OVN/OVS with SDN features', github: 'kubeovn/kube-ovn', stars: 1800 },
+    ]
+  },
+  {
+    id: 'ingress-controllers',
+    name: 'Ingress Controllers',
+    icon: '🚪',
+    tools: [
+      { name: 'Traefik', description: 'Cloud-native edge router with auto-discovery and Gateway API support', github: 'traefik/traefik', stars: 48000, featured: true },
+      { name: 'NGINX Ingress', description: 'NGINX-based Ingress controller for Kubernetes with rich traffic management', github: 'kubernetes/ingress-nginx', stars: 17000, featured: true },
+      { name: 'Contour', description: 'High performance Ingress controller using Envoy proxy with Gateway API support', github: 'projectcontour/contour', stars: 3600 },
+      { name: 'Emissary-ingress', description: 'Open-source Kubernetes-native API gateway built on Envoy Proxy', github: 'emissary-ingress/emissary', stars: 4300 },
+      { name: 'Kong Ingress', description: 'Kong API Gateway as a Kubernetes Ingress Controller with plugin ecosystem', github: 'Kong/kubernetes-ingress-controller', stars: 2500 },
+      { name: 'HAProxy Ingress', description: 'High-performance HAProxy-based Ingress controller for Kubernetes', github: 'haproxytech/kubernetes-ingress', stars: 700 },
+      { name: 'Caddy Ingress', description: 'Caddy-based Ingress controller with automatic HTTPS and simple configuration', github: 'caddyserver/ingress', stars: 300 },
     ]
   },
   {
@@ -146,6 +181,7 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Consul', description: 'Service mesh and service discovery for any runtime and cloud provider', github: 'hashicorp/consul', stars: 28000 },
       { name: 'Kuma', description: 'The universal Envoy service mesh for distributed service connectivity', github: 'kumahq/kuma', stars: 3500 },
       { name: 'Traefik Mesh', description: 'Simpler Service Mesh', github: 'traefik/mesh', stars: 2000 },
+      { name: 'Cilium Service Mesh', description: 'Sidecar-less service mesh powered by eBPF — no proxy needed for L3/L4 traffic', github: 'cilium/cilium', stars: 19200 },
     ]
   },
   {
@@ -158,6 +194,49 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Hubble', description: 'Network, Service & Security Observability for Kubernetes using eBPF', github: 'cilium/hubble', stars: 3300 },
       { name: 'Thanos', description: 'Highly available Prometheus setup with long term storage capabilities', github: 'thanos-io/thanos', stars: 12700 },
       { name: 'Metoro', description: 'Kubernetes-native observability platform', website: 'https://metoro.io/', stars: 0 },
+      { name: 'Odigos', description: 'Generate distributed traces without code changes using eBPF and OpenTelemetry', github: 'odigos-io/odigos', stars: 3100 },
+      { name: 'Dash0', description: 'OpenTelemetry-native observability platform for cloud-native environments', website: 'https://www.dash0.com/', stars: 0 },
+      { name: 'Tetragon', description: 'eBPF-based security observability and runtime enforcement by Cilium — kernel-level visibility', github: 'cilium/tetragon', stars: 3400 },
+    ]
+  },
+  {
+    id: 'iac',
+    name: 'Infrastructure as Code',
+    icon: '🏗️',
+    tools: [
+      { name: 'Crossplane', description: 'Cloud Native Control Planes — provision and manage cloud infra as K8s resources', github: 'crossplane/crossplane', stars: 9000, featured: true },
+      { name: 'Terraform', description: 'Infrastructure as Code tool for building, changing, and versioning cloud infrastructure', github: 'hashicorp/terraform', stars: 41000, featured: true },
+      { name: 'Pulumi', description: 'Infrastructure as Code using real programming languages — Python, TypeScript, Go, C#', github: 'pulumi/pulumi', stars: 20000 },
+      { name: 'OpenTofu', description: 'Community-driven open-source fork of Terraform — fully compatible drop-in replacement', github: 'opentofu/opentofu', stars: 21000, featured: true },
+      { name: 'Checkov', description: 'Static analysis tool for IaC — scans Terraform, K8s manifests, Dockerfiles for misconfigurations', github: 'bridgecrewio/checkov', stars: 6700 },
+      { name: 'cdk8s', description: 'Define Kubernetes manifests using familiar programming languages (TypeScript, Python, Java, Go)', github: 'cdk8s-team/cdk8s', stars: 4100 },
+      { name: 'Jsonnet', description: 'Data templating language for K8s manifests — powers Tanka and kube-prometheus', github: 'google/jsonnet', stars: 6800 },
+    ]
+  },
+  {
+    id: 'database-operators',
+    name: 'Database Operators',
+    icon: '🗄️',
+    tools: [
+      { name: 'CloudNativePG', description: 'The Kubernetes operator for PostgreSQL — CNCF Sandbox project for production-grade HA clusters', github: 'cloudnative-pg/cloudnative-pg', stars: 3800, featured: true },
+      { name: 'Strimzi', description: 'Run Apache Kafka on Kubernetes with an operator — handles brokers, topics, users, and rebalancing', github: 'strimzi/strimzi-kafka-operator', stars: 4600, featured: true },
+      { name: 'KubeDB', description: 'Run production-grade databases on Kubernetes — PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch', website: 'https://kubedb.com/', stars: 0 },
+      { name: 'CrunchyData PGO', description: 'Production PostgreSQL for Kubernetes — PGO the PostgreSQL Operator from Crunchy Data', github: 'CrunchyData/postgres-operator', stars: 3800 },
+      { name: 'MySQL Operator', description: 'MySQL Operator for Kubernetes managing MySQL InnoDB Cluster setups', github: 'mysql/mysql-operator', stars: 500 },
+      { name: 'MongoDB Community Operator', description: 'MongoDB Community Kubernetes Operator for deploying and managing MongoDB clusters', github: 'mongodb/mongodb-kubernetes-operator', stars: 1500 },
+      { name: 'Percona Operators', description: 'Kubernetes Operators for MySQL, PostgreSQL, and MongoDB by Percona — enterprise-grade databases', github: 'percona/percona-xtradb-cluster-operator', stars: 600 },
+    ]
+  },
+  {
+    id: 'image-registry',
+    name: 'Image Registry',
+    icon: '📦',
+    tools: [
+      { name: 'Harbor', description: 'Cloud native registry with vulnerability scanning, RBAC, replication, and signing', github: 'goharbor/harbor', stars: 23000, featured: true },
+      { name: 'Zot', description: 'Production-ready vendor-neutral OCI image registry — lightweight and single binary', github: 'project-zot/zot', stars: 800 },
+      { name: 'Distribution', description: 'The open source Docker Registry implementation — the reference OCI distribution spec', github: 'distribution/distribution', stars: 8500 },
+      { name: 'Quay', description: 'Build, analyze, distribute container images by Red Hat — private container registry', github: 'quay/quay', stars: 2400 },
+      { name: 'Dragonfly', description: 'P2P-based container image and file distribution system for large-scale clusters', github: 'dragonflyoss/Dragonfly2', stars: 2000 },
     ]
   },
   {
@@ -182,6 +261,8 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Litmus', description: 'Litmus helps Kubernetes SREs and developers practice chaos engineering', github: 'litmuschaos/litmus', stars: 4200 },
       { name: 'kubetest', description: 'End-to-end testing framework for Kubernetes', github: 'vapor-ware/kubetest', stars: 450 },
       { name: 'Polaris', description: 'Validation of best practices in your Kubernetes clusters', github: 'FairwindsOps/polaris', stars: 3100 },
+      { name: 'Testkube', description: 'Kubernetes-native test orchestration — run any testing tool inside K8s with CRDs', github: 'kubeshop/testkube', stars: 1400 },
+      { name: 'Chainsaw', description: 'Declarative end-to-end testing tool for Kubernetes operators and controllers', github: 'kyverno/chainsaw', stars: 400 },
     ]
   },
   {
@@ -216,6 +297,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'kubectl-ai', description: 'AI-powered kubectl plugin for generating Kubernetes manifests', github: 'sozercan/kubectl-ai', stars: 1000 },
       { name: 'Ollama', description: 'Run large language models locally, deployable on K8s', github: 'ollama/ollama', stars: 80000 },
       { name: 'vLLM', description: 'A high-throughput and memory-efficient inference engine for LLMs on K8s', github: 'vllm-project/vllm', stars: 25000 },
+      { name: 'CAST AI', description: 'AI-powered Kubernetes cost optimization — automated rightsizing and instance selection', website: 'https://cast.ai/', stars: 0 },
+      { name: 'Kopilot', description: 'AI-powered Kubernetes assistant for diagnosing cluster issues and suggesting fixes', github: 'knight42/kopilot', stars: 400 },
+      { name: 'Energent.ai', description: 'Plain-English AI insights for Kubernetes cluster health and performance monitoring', website: 'https://energent.ai/', stars: 0 },
     ]
   },
   {
@@ -240,6 +324,9 @@ export const toolCategories: ToolCategory[] = [
       { name: 'KEDA', description: 'Kubernetes Event-driven Autoscaling', github: 'kedacore/keda', stars: 7900 },
       { name: 'Goldilocks', description: 'Get your resource requests "Just Right"', github: 'FairwindsOps/goldilocks', stars: 2100 },
       { name: 'Cluster Autoscaler', description: 'Autoscaling the size of a Kubernetes Cluster', github: 'kubernetes/autoscaler', stars: 7600 },
+      { name: 'OpenCost', description: 'Open source cost monitoring for cloud native environments — CNCF Sandbox', github: 'opencost/opencost', stars: 4900 },
+      { name: 'StormForge', description: 'ML-powered resource optimization for Kubernetes — automatic right-sizing recommendations', website: 'https://www.stormforge.io/', stars: 0 },
+      { name: 'Sedai', description: 'Autonomous cloud management — AI-driven workload rightsizing and predictive autoscaling', website: 'https://www.sedai.io/', stars: 0 },
     ]
   },
   {

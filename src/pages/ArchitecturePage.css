@@ -332,6 +332,149 @@
 /* K3s Diagram */
 .k3s-server-content { display: flex; flex-direction: column; gap: 12px; }
 
+/* ── Cilium Diagram ─────────────────────────────────────────────── */
+.cilium-cp {
+  border-color: rgba(0, 230, 118, 0.3);
+  background: linear-gradient(180deg, rgba(0, 230, 118, 0.06) 0%, rgba(0,0,0,0.4) 100%);
+}
+
+.cilium-cp-content { display: flex; gap: 12px; }
+.cilium-cp-content .comp-btn { flex: 1; justify-content: center; }
+
+.cilium-badge {
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+}
+
+.cilium-node {
+  border-color: rgba(0, 230, 118, 0.3);
+}
+
+.cilium-node-content { display: flex; flex-direction: column; gap: 10px; }
+
+.ebpf-datapath {
+  background: rgba(0, 230, 118, 0.06);
+  border: 1px dashed rgba(0, 230, 118, 0.25);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-top: 4px;
+}
+
+.ebpf-btn { width: 100%; justify-content: center; }
+
+.ebpf-btn.active {
+  background: rgba(0, 230, 118, 0.2) !important;
+  border-color: var(--green) !important;
+  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.15) !important;
+}
+
+.ebpf-features {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ebpf-tag {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 230, 118, 0.12);
+  color: var(--green);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.cilium-node .comp-btn.active {
+  background: rgba(0, 230, 118, 0.2);
+  border-color: var(--green);
+  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.15);
+}
+
+/* ── Traefik Diagram ────────────────────────────────────────────── */
+.traefik-pipeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.traefik-edge {
+  border-color: rgba(232, 137, 30, 0.4);
+  background: linear-gradient(180deg, rgba(232, 137, 30, 0.06) 0%, rgba(0,0,0,0.4) 100%);
+}
+
+.traefik-core {
+  border-color: rgba(232, 137, 30, 0.4);
+  background: linear-gradient(180deg, rgba(232, 137, 30, 0.08) 0%, rgba(0,0,0,0.4) 100%);
+  width: 100%;
+}
+
+.traefik-core-content { display: flex; gap: 12px; }
+.traefik-core-content .comp-btn { flex: 1; justify-content: center; }
+
+.traefik-routing {
+  border-color: rgba(232, 137, 30, 0.25);
+  width: 100%;
+}
+
+.traefik-pipeline-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.traefik-pipeline-content .comp-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: 0.85rem;
+  justify-content: center;
+}
+
+.traefik-line {
+  background: linear-gradient(180deg, rgba(232, 137, 30, 0.5) 0%, rgba(232, 137, 30, 0.3) 100%) !important;
+}
+
+.traefik-line::after {
+  background: #e8891e !important;
+}
+
+.badge-orange {
+  background: rgba(232, 137, 30, 0.15);
+  color: #e8891e;
+  border: 1px solid rgba(232, 137, 30, 0.3);
+}
+
+.traefik-edge .comp-btn.active,
+.traefik-core .comp-btn.active,
+.traefik-routing .comp-btn.active {
+  background: rgba(232, 137, 30, 0.2);
+  border-color: #e8891e;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(232, 137, 30, 0.2);
+}
+
+.traefik-pod-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(232, 137, 30, 0.06);
+  border: 1px solid rgba(232, 137, 30, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 /* Info Panel */
 .info-panel {
   padding: 32px;
@@ -424,4 +567,7 @@
   .worker-nodes-container { flex-direction: column; }
   .components-grid { grid-template-columns: 1fr; }
   .http-routes { flex-direction: column; }
+  .cilium-cp-content { flex-direction: column; }
+  .traefik-pipeline-content { flex-direction: column; }
+  .traefik-core-content { flex-direction: column; }
 }

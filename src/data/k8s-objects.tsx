@@ -1164,6 +1164,507 @@ spec:
       { field: 'status.conditions', description: 'Conditions applied to the request: Approved, Denied, or Failed.' },
       { field: 'status.certificate', description: 'The issued certificate in PEM format, populated after approval.' }
     ]
+  },
+
+  // ── Gateway API ────────────────────────────────────────────────────
+  {
+    kind: 'GatewayClass',
+    apiVersion: 'gateway.networking.k8s.io/v1',
+    category: 'Networking',
+    description: 'GatewayClass defines a set of Gateways with a common configuration and behavior. It is managed by an infrastructure provider and represents a class of load-balancing infrastructure.',
+    introduced: 'v1.28',
+    hierarchy: ['GatewayClass', 'Gateway', 'HTTPRoute'],
+    yamlSnippet: `apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: example-class
+spec:
+  controllerName: example.com/gateway-controller
+  parametersRef:
+    group: example.com
+    kind: GatewayConfig
+    name: cluster-gateway-config`,
+    keyFields: [
+      { field: 'spec.controllerName', description: 'The name of the controller that implements this GatewayClass (e.g., "istio.io/gateway-controller", "traefik.io/gateway-controller").' },
+      { field: 'spec.parametersRef', description: 'A reference to a resource that contains implementation-specific configuration for this GatewayClass.' },
+      { field: 'spec.description', description: 'A human-readable description of the GatewayClass.' },
+      { field: 'status.conditions', description: 'Current conditions of the GatewayClass. Typically includes "Accepted" to indicate the controller recognizes this class.' }
+    ]
+  },
+  {
+    kind: 'Gateway',
+    apiVersion: 'gateway.networking.k8s.io/v1',
+    category: 'Networking',
+    shortName: 'gtw',
+    description: 'A Gateway represents an instance of a load-balancing infrastructure. It requests a point where traffic can be translated to Services within the cluster, defined by listeners.',
+    introduced: 'v1.28',
+    hierarchy: ['GatewayClass', 'Gateway', 'HTTPRoute / GRPCRoute'],
+    yamlSnippet: `apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: example-gateway
+  namespace: default
+spec:
+  gatewayClassName: example-class
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+  - name: https
+    protocol: HTTPS
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: example-cert`,
+    keyFields: [
+      { field: 'spec.gatewayClassName', description: 'The name of the GatewayClass this Gateway is an instance of.' },
+      { field: 'spec.listeners', description: 'List of listeners associated with the Gateway. Each listener defines a port, protocol, and optional TLS configuration.' },
+      { field: 'spec.listeners[].hostname', description: 'The hostname to match on for this listener. Requests not matching are ignored.' },
+      { field: 'spec.listeners[].tls', description: 'TLS configuration for the listener, including mode (Terminate, Passthrough) and certificate references.' },
+      { field: 'spec.addresses', description: 'Requested addresses for the Gateway (IP or hostname). Implementation-specific.' },
+      { field: 'status.addresses', description: 'The actual addresses assigned to this Gateway by the controller.' }
+    ]
+  },
+  {
+    kind: 'HTTPRoute',
+    apiVersion: 'gateway.networking.k8s.io/v1',
+    category: 'Networking',
+    description: 'HTTPRoute defines HTTP rules for routing traffic from a Gateway listener to backend services. It supports path matching, header matching, redirects, URL rewrites, and traffic splitting.',
+    introduced: 'v1.28',
+    hierarchy: ['Gateway', 'HTTPRoute', 'Service'],
+    yamlSnippet: `apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: example-route
+  namespace: default
+spec:
+  parentRefs:
+  - name: example-gateway
+  hostnames:
+  - "app.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api
+    backendRefs:
+    - name: api-service
+      port: 8080
+      weight: 90
+    - name: api-service-canary
+      port: 8080
+      weight: 10`,
+    keyFields: [
+      { field: 'spec.parentRefs', description: 'References to the Gateways that this HTTPRoute attaches to for receiving traffic.' },
+      { field: 'spec.hostnames', description: 'Hostnames that the HTTPRoute matches against the Host header of requests.' },
+      { field: 'spec.rules', description: 'List of HTTP routing rules. Each rule defines matches, filters, and backend references.' },
+      { field: 'spec.rules[].matches', description: 'Conditions for matching a request (path, headers, query params, method).' },
+      { field: 'spec.rules[].backendRefs', description: 'Backend services to forward matching requests to. Supports weighted traffic splitting.' },
+      { field: 'spec.rules[].filters', description: 'Processing steps applied to matched requests (RequestHeaderModifier, URLRewrite, RequestRedirect, RequestMirror).' }
+    ]
+  },
+  {
+    kind: 'GRPCRoute',
+    apiVersion: 'gateway.networking.k8s.io/v1',
+    category: 'Networking',
+    description: 'GRPCRoute provides a way to route gRPC traffic from a Gateway listener to backend Kubernetes services. It supports matching on gRPC service and method names.',
+    introduced: 'v1.31',
+    hierarchy: ['Gateway', 'GRPCRoute', 'Service'],
+    yamlSnippet: `apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: grpc-route
+  namespace: default
+spec:
+  parentRefs:
+  - name: example-gateway
+  hostnames:
+  - "grpc.example.com"
+  rules:
+  - matches:
+    - method:
+        service: my.package.ExampleService
+        method: GetExample
+    backendRefs:
+    - name: grpc-backend
+      port: 50051`,
+    keyFields: [
+      { field: 'spec.parentRefs', description: 'References to the Gateways that this GRPCRoute attaches to for receiving traffic.' },
+      { field: 'spec.hostnames', description: 'Hostnames associated with the GRPCRoute. Must match the SNI or authority header.' },
+      { field: 'spec.rules[].matches', description: 'Conditions for matching a gRPC request: by service name, method name, or headers.' },
+      { field: 'spec.rules[].backendRefs', description: 'Backend services to forward matching requests to.' },
+      { field: 'spec.rules[].filters', description: 'Processing steps to apply to matched requests (RequestHeaderModifier, RequestMirror).' }
+    ]
+  },
+  {
+    kind: 'ReferenceGrant',
+    apiVersion: 'gateway.networking.k8s.io/v1beta1',
+    category: 'Networking',
+    shortName: 'refgrant',
+    description: 'ReferenceGrant allows resources in one namespace to reference resources in another namespace. This is critical for Gateway API cross-namespace routing where an HTTPRoute in one namespace references a Service in another.',
+    introduced: 'v1.26',
+    hierarchy: ['ReferenceGrant', 'HTTPRoute (from)', 'Service (to)'],
+    yamlSnippet: `apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-routes-from-frontend
+  namespace: backend
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    namespace: frontend
+  to:
+  - group: ""
+    kind: Service`,
+    keyFields: [
+      { field: 'spec.from', description: 'List of sources (group, kind, namespace) that are allowed to reference the target resources.' },
+      { field: 'spec.from[].namespace', description: 'The namespace of the source resources allowed to make references.' },
+      { field: 'spec.to', description: 'List of target resource types (group, kind) in this namespace that can be referenced.' },
+      { field: 'spec.to[].name', description: 'Optional. If specified, only this specific named resource can be referenced.' }
+    ]
+  },
+
+  // ── MetalLB ────────────────────────────────────────────────────────
+  {
+    kind: 'IPAddressPool',
+    apiVersion: 'metallb.io/v1beta1',
+    category: 'Networking',
+    description: 'IPAddressPool represents a pool of IP addresses that MetalLB can allocate to LoadBalancer-type Services. It defines the range of IPs available for bare-metal load balancing.',
+    introduced: 'MetalLB v0.13+',
+    hierarchy: ['IPAddressPool', 'L2Advertisement / BGPAdvertisement', 'Service (LoadBalancer)'],
+    yamlSnippet: `apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: production-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.1.240-192.168.1.250
+  - 10.0.0.100/32
+  autoAssign: true
+  avoidBuggyIPs: true`,
+    keyFields: [
+      { field: 'spec.addresses', description: 'List of IP address ranges that MetalLB can use. Supports CIDR notation and range format (start-end).' },
+      { field: 'spec.autoAssign', description: 'When true (default), MetalLB automatically assigns IPs from this pool to Services. When false, Services must explicitly request this pool.' },
+      { field: 'spec.avoidBuggyIPs', description: 'When true, avoids allocating .0 and .255 addresses from ranges, which can be buggy on some devices.' },
+      { field: 'spec.serviceAllocation', description: 'Optional. Restricts which Services can use this pool based on namespaces, service selectors, or priority.' }
+    ]
+  },
+  {
+    kind: 'L2Advertisement',
+    apiVersion: 'metallb.io/v1beta1',
+    category: 'Networking',
+    description: 'L2Advertisement configures MetalLB to advertise IP addresses from specified IPAddressPools using Layer 2 (ARP/NDP) mode. One node assumes responsibility for answering ARP requests for the service IP.',
+    introduced: 'MetalLB v0.13+',
+    hierarchy: ['IPAddressPool', 'L2Advertisement', 'Node (speaker)'],
+    yamlSnippet: `apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advert
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - production-pool
+  nodeSelectors:
+  - matchLabels:
+      kubernetes.io/os: linux
+  interfaces:
+  - eth0`,
+    keyFields: [
+      { field: 'spec.ipAddressPools', description: 'List of IPAddressPool names whose IPs should be advertised via Layer 2. If empty, all pools are advertised.' },
+      { field: 'spec.ipAddressPoolSelectors', description: 'A label selector to match IPAddressPools for advertisement instead of listing names explicitly.' },
+      { field: 'spec.nodeSelectors', description: 'Limits which nodes can be elected to announce IPs for this advertisement.' },
+      { field: 'spec.interfaces', description: 'Limits which network interfaces on the node can be used for L2 announcements.' }
+    ]
+  },
+
+  // ── Autoscaling (continued) ────────────────────────────────────────
+  {
+    kind: 'ScaledObject',
+    apiVersion: 'keda.sh/v1alpha1',
+    category: 'Workloads',
+    shortName: 'so',
+    description: 'ScaledObject is a KEDA custom resource that defines how a Deployment, StatefulSet, or Custom Resource should be scaled based on external event sources like message queues, databases, or custom metrics.',
+    introduced: 'KEDA v2.0+',
+    hierarchy: ['ScaledObject', 'HorizontalPodAutoscaler', 'Deployment / StatefulSet'],
+    yamlSnippet: `apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rabbitmq-scaler
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: consumer-deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 30
+  triggers:
+  - type: rabbitmq
+    metadata:
+      queueName: tasks
+      host: amqp://guest:guest@rabbitmq.default:5672/
+      queueLength: "5"`,
+    keyFields: [
+      { field: 'spec.scaleTargetRef', description: 'Reference to the target resource to scale (Deployment, StatefulSet, or Custom Resource).' },
+      { field: 'spec.triggers', description: 'List of event sources (scalers) that drive the scaling. Each trigger defines a type and metadata for the external source.' },
+      { field: 'spec.pollingInterval', description: 'Interval in seconds to check each trigger for new data. Defaults to 30.' },
+      { field: 'spec.cooldownPeriod', description: 'Period in seconds to wait after the last trigger activation before scaling back down. Defaults to 300.' },
+      { field: 'spec.minReplicaCount', description: 'Minimum number of replicas. If set to 0, KEDA can scale to zero.' },
+      { field: 'spec.maxReplicaCount', description: 'Maximum number of replicas KEDA will scale the resource to.' }
+    ]
+  },
+  {
+    kind: 'VerticalPodAutoscaler',
+    apiVersion: 'autoscaling.k8s.io/v1',
+    category: 'Workloads',
+    shortName: 'vpa',
+    description: 'VerticalPodAutoscaler (VPA) automatically adjusts the CPU and memory resource requests and limits of containers in a pod based on historical usage, ensuring pods are right-sized.',
+    introduced: 'v1.24',
+    hierarchy: ['VerticalPodAutoscaler', 'Deployment / StatefulSet', 'Pod'],
+    yamlSnippet: `apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: my-app-vpa
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+  updatePolicy:
+    updateMode: Auto
+  resourcePolicy:
+    containerPolicies:
+    - containerName: "*"
+      minAllowed:
+        cpu: 100m
+        memory: 128Mi
+      maxAllowed:
+        cpu: 4
+        memory: 8Gi
+      controlledResources: ["cpu", "memory"]`,
+    keyFields: [
+      { field: 'spec.targetRef', description: 'Reference to the workload controller (Deployment, StatefulSet, etc.) whose pods are managed by this VPA.' },
+      { field: 'spec.updatePolicy.updateMode', description: 'How VPA applies recommendations: "Off" (only recommend), "Initial" (set on pod creation), "Auto" (continuously update).' },
+      { field: 'spec.resourcePolicy.containerPolicies', description: 'Per-container policies defining min/max resource bounds and which resources are controlled.' },
+      { field: 'status.recommendation', description: 'The current recommended resource requests for each container (target, lowerBound, upperBound, uncappedTarget).' }
+    ]
+  },
+
+  // ── Popular Daily-Use Objects ──────────────────────────────────────
+  {
+    kind: 'StorageClass',
+    apiVersion: 'storage.k8s.io/v1',
+    category: 'Config & Storage',
+    shortName: 'sc',
+    description: 'StorageClass provides a way for administrators to describe the classes of storage they offer. Different classes might map to quality-of-service levels, backup policies, or provisioner types.',
+    introduced: 'v1.6',
+    hierarchy: ['StorageClass', 'PersistentVolume', 'PersistentVolumeClaim'],
+    yamlSnippet: `apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-ssd
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp3
+  iopsPerGB: "10"
+  fsType: ext4
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer`,
+    keyFields: [
+      { field: 'provisioner', description: 'The type of the provisioner that creates volumes for this class (e.g., kubernetes.io/aws-ebs, pd.csi.storage.gke.io).' },
+      { field: 'parameters', description: 'Provisioner-specific parameters passed when creating volumes (e.g., disk type, IOPS, filesystem type).' },
+      { field: 'reclaimPolicy', description: 'What happens to dynamically provisioned PVs when released: Delete or Retain.' },
+      { field: 'volumeBindingMode', description: 'When volume binding and provisioning occurs: Immediate or WaitForFirstConsumer (delays until a Pod using the PVC is created).' },
+      { field: 'allowVolumeExpansion', description: 'Whether PVCs created with this class can be expanded after creation.' },
+      { field: 'mountOptions', description: 'Mount options for dynamically provisioned PersistentVolumes of this class.' }
+    ]
+  },
+  {
+    kind: 'ServiceMonitor',
+    apiVersion: 'monitoring.coreos.com/v1',
+    category: 'Cluster',
+    description: 'ServiceMonitor defines a set of targets for Prometheus to monitor. It declaratively specifies which Kubernetes Services should be scraped for metrics, with which configuration.',
+    introduced: 'Prometheus Operator v0.1+',
+    hierarchy: ['Prometheus', 'ServiceMonitor', 'Service / Pods'],
+    yamlSnippet: `apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: my-app-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  namespaceSelector:
+    matchNames:
+    - production
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+    scrapeTimeout: 10s`,
+    keyFields: [
+      { field: 'spec.selector', description: 'Label selector to identify which Services to monitor.' },
+      { field: 'spec.endpoints', description: 'List of endpoint configurations defining how to scrape metrics (port, path, interval, scheme).' },
+      { field: 'spec.namespaceSelector', description: 'Selector for which namespaces to discover Services in. Use matchNames or any: true.' },
+      { field: 'spec.endpoints[].interval', description: 'How often Prometheus scrapes the target (e.g., "30s", "1m").' },
+      { field: 'spec.endpoints[].path', description: 'HTTP path to scrape metrics from. Defaults to "/metrics".' }
+    ]
+  },
+  {
+    kind: 'PrometheusRule',
+    apiVersion: 'monitoring.coreos.com/v1',
+    category: 'Cluster',
+    description: 'PrometheusRule defines Prometheus alerting and recording rules as a Kubernetes custom resource. It allows teams to manage their alerting rules declaratively alongside their applications.',
+    introduced: 'Prometheus Operator v0.12+',
+    hierarchy: ['Prometheus', 'PrometheusRule', 'Alertmanager'],
+    yamlSnippet: `apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: my-app-alerts
+  labels:
+    release: prometheus
+spec:
+  groups:
+  - name: my-app.rules
+    rules:
+    - alert: HighErrorRate
+      expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+      for: 10m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High error rate detected"
+        description: "More than 10% of requests are failing."`,
+    keyFields: [
+      { field: 'spec.groups', description: 'List of rule groups. Each group contains a name, an optional interval, and a list of rules.' },
+      { field: 'spec.groups[].rules[].alert', description: 'The name of the alerting rule. Triggers when the expression evaluates to true.' },
+      { field: 'spec.groups[].rules[].expr', description: 'PromQL expression that defines the condition for the rule.' },
+      { field: 'spec.groups[].rules[].for', description: 'Duration the expression must be true before firing the alert.' },
+      { field: 'spec.groups[].rules[].labels', description: 'Labels added to the alert (e.g., severity). Used for routing in Alertmanager.' },
+      { field: 'spec.groups[].rules[].record', description: 'For recording rules: the name of the time series to record the result as.' }
+    ]
+  },
+  {
+    kind: 'Lease',
+    apiVersion: 'coordination.k8s.io/v1',
+    category: 'Cluster',
+    description: 'Lease provides a mechanism for leader election and node heartbeats. The kubelet uses Leases to send heartbeats so the control plane can detect node failures. Controllers use them for leader election.',
+    introduced: 'v1.14',
+    hierarchy: ['Lease', 'Node / Controller'],
+    yamlSnippet: `apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: worker-node-1
+  namespace: kube-node-lease
+spec:
+  holderIdentity: worker-node-1
+  leaseDurationSeconds: 40
+  renewTime: "2024-01-15T10:30:00.000000Z"
+  acquireTime: "2024-01-15T08:00:00.000000Z"
+  leaseTransitions: 3`,
+    keyFields: [
+      { field: 'spec.holderIdentity', description: 'The identity of the current holder of the lease.' },
+      { field: 'spec.leaseDurationSeconds', description: 'The duration that non-leader candidates will wait to force acquire leadership. Also used as node heartbeat interval indication.' },
+      { field: 'spec.renewTime', description: 'The time when the current holder last renewed the lease.' },
+      { field: 'spec.acquireTime', description: 'The time when the current lease was acquired.' },
+      { field: 'spec.leaseTransitions', description: 'The number of transitions of a lease between holders.' }
+    ]
+  },
+  {
+    kind: 'RuntimeClass',
+    apiVersion: 'node.k8s.io/v1',
+    category: 'Cluster',
+    description: 'RuntimeClass defines a class of container runtime configuration. It is used to select the container runtime (e.g., gVisor, Kata Containers) and configure overhead/scheduling for pods that use it.',
+    introduced: 'v1.20',
+    hierarchy: ['RuntimeClass', 'Pod'],
+    yamlSnippet: `apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: gvisor
+handler: runsc
+overhead:
+  podFixed:
+    memory: "120Mi"
+    cpu: "250m"
+scheduling:
+  nodeSelector:
+    runtime: gvisor-enabled`,
+    keyFields: [
+      { field: 'handler', description: 'Specifies the underlying runtime and configuration to use (e.g., "runsc" for gVisor, "kata" for Kata Containers).' },
+      { field: 'overhead.podFixed', description: 'Fixed resource overhead associated with running a pod using this RuntimeClass (added to the pod resource calculations).' },
+      { field: 'scheduling.nodeSelector', description: 'Node selector constraints ensuring pods land on nodes that support this runtime.' },
+      { field: 'scheduling.tolerations', description: 'Tolerations that are appended to pods running with this RuntimeClass during admission.' }
+    ]
+  },
+  {
+    kind: 'PodTemplate',
+    apiVersion: 'v1',
+    category: 'Workloads',
+    description: 'PodTemplate describes a template for creating copies of a predefined pod. It is a standalone resource that can be referenced by other resources to create pods with a consistent specification.',
+    introduced: 'v1.0',
+    hierarchy: ['PodTemplate', 'Pod'],
+    yamlSnippet: `apiVersion: v1
+kind: PodTemplate
+metadata:
+  name: worker-template
+  namespace: default
+template:
+  metadata:
+    labels:
+      app: worker
+  spec:
+    containers:
+    - name: worker
+      image: worker:latest
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+    restartPolicy: OnFailure`,
+    keyFields: [
+      { field: 'template.metadata', description: 'Standard object metadata for the pods created from this template, including labels and annotations.' },
+      { field: 'template.spec', description: 'The full PodSpec that defines containers, volumes, restart policy, and other pod-level settings.' },
+      { field: 'template.spec.containers', description: 'List of containers to include in pods created from this template.' },
+      { field: 'template.spec.restartPolicy', description: 'Restart policy for all containers in the pod: Always, OnFailure, or Never.' }
+    ]
+  },
+  {
+    kind: 'ResourceClaim',
+    apiVersion: 'resource.k8s.io/v1alpha3',
+    category: 'Config & Storage',
+    description: 'ResourceClaim is used in Dynamic Resource Allocation (DRA) to request access to resources like GPUs, FPGAs, or other specialized hardware managed by DRA drivers.',
+    introduced: 'v1.30 (alpha)',
+    hierarchy: ['ResourceClaimTemplate', 'ResourceClaim', 'Pod'],
+    yamlSnippet: `apiVersion: resource.k8s.io/v1alpha3
+kind: ResourceClaim
+metadata:
+  name: gpu-claim
+  namespace: default
+spec:
+  devices:
+    requests:
+    - name: gpu
+      deviceClassName: gpu.nvidia.com
+    constraints:
+    - requests: ["gpu"]
+      matchAttribute: dra.k8s.io/numa-node`,
+    keyFields: [
+      { field: 'spec.devices.requests', description: 'List of device requests. Each request specifies a name and a DeviceClass to request from.' },
+      { field: 'spec.devices.requests[].deviceClassName', description: 'The name of the DeviceClass that defines the type of device being requested.' },
+      { field: 'spec.devices.constraints', description: 'Constraints that must be satisfied when allocating devices (e.g., NUMA topology, co-location).' },
+      { field: 'status.allocation', description: 'The result of allocating the claim, populated by the DRA driver after allocation.' }
+    ]
   }
 ];
 

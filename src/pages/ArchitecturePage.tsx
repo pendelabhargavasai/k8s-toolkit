@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Network, Server, Box, ArrowRightLeft, Lock, Globe, Layers } from 'lucide-react';
+import { Network, Server, Box, ArrowRightLeft, Lock, Globe, Layers, Shield } from 'lucide-react';
 import { architectures } from '../data/architectures';
 import type { ArchCategory, ArchId, Architecture } from '../data/architectures';
 import './ArchitecturePage.css';
@@ -221,6 +221,159 @@ export default function ArchitecturePage() {
               >
                 {activeArch.components['agent'].icon} K3s Agent Process
               </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeArchId === 'cilium') {
+      return (
+        <div className="diagram-wrapper cilium-diagram">
+          {/* Cluster-wide Control Plane */}
+          <div className="node-box control-plane-node cilium-cp">
+            <div className="node-header">
+              <h3>Cluster Control Plane</h3>
+              <span className="badge badge-green">Deployment</span>
+            </div>
+            <div className="cilium-cp-content">
+              <button 
+                className={`comp-btn ${activeComponentId === 'operator' ? 'active' : ''}`}
+                onClick={() => setActiveComponentId('operator')}
+              >
+                {activeArch.components['operator'].icon} Cilium Operator
+              </button>
+              <button 
+                className={`comp-btn ${activeComponentId === 'hubblerelay' ? 'active' : ''}`}
+                onClick={() => setActiveComponentId('hubblerelay')}
+              >
+                {activeArch.components['hubblerelay'].icon} Hubble Relay
+              </button>
+            </div>
+          </div>
+          <div className="connection-area">
+            <div className="flow-lines"><div className="line line-1" /><div className="line line-2" /></div>
+            <div className="api-badge cilium-badge">eBPF Maps & CRDs</div>
+          </div>
+          {/* Per-Node Components */}
+          <div className="worker-nodes-container">
+            {[1, 2].map((num) => (
+              <div key={num} className="node-box worker-node cilium-node">
+                <div className="node-header">
+                  <h3>Worker Node {num}</h3>
+                  <span className="badge badge-green">DaemonSet</span>
+                </div>
+                <div className="cilium-node-content">
+                  <button 
+                    className={`comp-btn ${activeComponentId === 'agent' ? 'active' : ''}`}
+                    onClick={() => setActiveComponentId('agent')}
+                  >
+                    {activeArch.components['agent'].icon} Cilium Agent
+                  </button>
+                  <button 
+                    className={`comp-btn ${activeComponentId === 'hubble' ? 'active' : ''}`}
+                    onClick={() => setActiveComponentId('hubble')}
+                  >
+                    {activeArch.components['hubble'].icon} Hubble
+                  </button>
+                  <div className="ebpf-datapath">
+                    <button 
+                      className={`comp-btn ebpf-btn ${activeComponentId === 'ebpf' ? 'active' : ''}`}
+                      onClick={() => setActiveComponentId('ebpf')}
+                    >
+                      {activeArch.components['ebpf'].icon} eBPF Datapath
+                    </button>
+                    <div className="ebpf-features">
+                      <span className="ebpf-tag">L3/L4 Policy</span>
+                      <span className="ebpf-tag">NAT/LB</span>
+                      <span className="ebpf-tag">XDP</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (activeArchId === 'traefik') {
+      return (
+        <div className="diagram-wrapper traefik-diagram">
+          {/* Request Flow Pipeline */}
+          <div className="traefik-pipeline">
+            {/* External Traffic */}
+            <div className="node-box traefik-edge">
+              <div className="node-header">
+                <h3>External Traffic</h3>
+                <span className="badge badge-orange">Internet</span>
+              </div>
+              <button 
+                className={`comp-btn full-width ${activeComponentId === 'entrypoints' ? 'active' : ''}`}
+                onClick={() => setActiveComponentId('entrypoints')}
+              >
+                {activeArch.components['entrypoints'].icon} Entrypoints (:80, :443)
+              </button>
+            </div>
+            <div className="connection-area small"><div className="line traefik-line" /></div>
+            {/* Traefik Core */}
+            <div className="node-box traefik-core">
+              <div className="node-header">
+                <h3>Traefik Proxy</h3>
+                <span className="badge badge-orange">Core</span>
+              </div>
+              <div className="traefik-core-content">
+                <button 
+                  className={`comp-btn ${activeComponentId === 'proxy' ? 'active' : ''}`}
+                  onClick={() => setActiveComponentId('proxy')}
+                >
+                  {activeArch.components['proxy'].icon} Proxy Engine
+                </button>
+                <button 
+                  className={`comp-btn ${activeComponentId === 'providers' ? 'active' : ''}`}
+                  onClick={() => setActiveComponentId('providers')}
+                >
+                  {activeArch.components['providers'].icon} Providers
+                </button>
+              </div>
+            </div>
+            <div className="connection-area small"><div className="line traefik-line" /></div>
+            {/* Routing Layer */}
+            <div className="node-box traefik-routing">
+              <div className="node-header">
+                <h3>Request Pipeline</h3>
+              </div>
+              <div className="traefik-pipeline-content">
+                <button 
+                  className={`comp-btn ${activeComponentId === 'routers' ? 'active' : ''}`}
+                  onClick={() => setActiveComponentId('routers')}
+                >
+                  {activeArch.components['routers'].icon} Routers
+                </button>
+                <ArrowRightLeft className="text-muted" size={20} />
+                <button 
+                  className={`comp-btn ${activeComponentId === 'middlewares' ? 'active' : ''}`}
+                  onClick={() => setActiveComponentId('middlewares')}
+                >
+                  {activeArch.components['middlewares'].icon} Middlewares
+                </button>
+                <ArrowRightLeft className="text-muted" size={20} />
+                <button 
+                  className={`comp-btn ${activeComponentId === 'services' ? 'active' : ''}`}
+                  onClick={() => setActiveComponentId('services')}
+                >
+                  {activeArch.components['services'].icon} Services
+                </button>
+              </div>
+            </div>
+            <div className="connection-area small"><div className="line traefik-line" /></div>
+            {/* Backend Pods */}
+            <div className="worker-nodes-container">
+              {['Pod A', 'Pod B', 'Pod C'].map((podName) => (
+                <div key={podName} className="traefik-pod-box">
+                  <Box size={16} /> {podName}
+                </div>
+              ))}
             </div>
           </div>
         </div>
