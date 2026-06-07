@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Package, Layers, ArrowRightLeft, FileText, Folder, Check, Copy, Anchor } from 'lucide-react';
+import { Package, Layers, ArrowRightLeft, FileText, Folder, Check, Copy, Anchor, Download } from 'lucide-react';
+import JSZip from 'jszip';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-yaml';
 import 'prismjs/themes/prism-tomorrow.css';
@@ -49,6 +50,24 @@ export default function HelmKustomizePage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDownloadZip = async (files: { path: string, content: string }[], prefix: string) => {
+    const zip = new JSZip();
+    
+    files.forEach(file => {
+      zip.file(file.path, file.content);
+    });
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${prefix}-${Date.now()}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const currentFile = activeTab === 'helm' 
     ? generatedHelmFiles.find(f => f.path === activeHelmFile) 
     : generatedKustomizeFiles.find(f => f.path === activeKustomizeFile);
@@ -69,13 +88,13 @@ export default function HelmKustomizePage() {
           className={`tab-btn helm-tab ${activeTab === 'helm' ? 'active' : ''}`}
           onClick={() => setActiveTab('helm')}
         >
-          <Anchor className="tab-icon" /> Helm Chart Generator
+          <img src="/helm-logo.svg" alt="Helm" className="tab-icon-img" /> Helm Chart Generator
         </button>
         <button 
           className={`tab-btn kustomize-tab ${activeTab === 'kustomize' ? 'active' : ''}`}
           onClick={() => setActiveTab('kustomize')}
         >
-          <Layers className="tab-icon" /> Kustomize Overlays
+          <img src="/kustomize-logo.svg" alt="Kustomize" className="tab-icon-img" /> Kustomize Overlays
         </button>
         <button 
           className={`tab-btn compare-tab ${activeTab === 'compare' ? 'active' : ''}`}
@@ -173,7 +192,16 @@ export default function HelmKustomizePage() {
 
             <div className="preview-panel">
               <div className="file-tree">
-                <h4>Generated Chart</h4>
+                <div className="file-tree-header">
+                  <h4>Generated Chart</h4>
+                  <button 
+                    className="btn btn-ghost btn-sm" 
+                    onClick={() => handleDownloadZip(generatedHelmFiles, helmConfig.name)}
+                    title="Download as ZIP"
+                  >
+                    <Download size={14} /> ZIP
+                  </button>
+                </div>
                 <div className="tree-list">
                   {generatedHelmFiles.map(file => {
                     const indent = getIndentLevel(file.path);
@@ -330,7 +358,16 @@ export default function HelmKustomizePage() {
 
             <div className="preview-panel">
               <div className="file-tree">
-                <h4>Directory Structure</h4>
+                <div className="file-tree-header">
+                  <h4>Directory Structure</h4>
+                  <button 
+                    className="btn btn-ghost btn-sm" 
+                    onClick={() => handleDownloadZip(generatedKustomizeFiles, `${kustomizeConfig.appName}-kustomize`)}
+                    title="Download as ZIP"
+                  >
+                    <Download size={14} /> ZIP
+                  </button>
+                </div>
                 <div className="tree-list">
                   <div className="tree-folder"><Folder size={14} className="text-blue" /> base</div>
                   {generatedKustomizeFiles.filter(f => f.path.startsWith('base/')).map(file => {

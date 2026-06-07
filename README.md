@@ -1,6 +1,6 @@
 <h1>
   <img src="./public/logo.png" alt="k8s ToolKit Icon" style="height: 1.5em; vertical-align: middle; margin-right: 0.5em;">
-  <a href="https://k8skit.pendela.in/">K8s ToolKit</a>
+  <a href="https://k8skit.pendela.in/">K8sToolKit</a>
 </h1>
 
 > A comprehensive web-based dashboard for discovering, managing, and understanding Kubernetes tools and plugins.

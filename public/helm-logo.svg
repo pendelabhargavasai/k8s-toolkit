@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="200" height="200">
+  <path fill="#0f1689" d="M50 25a25 25 0 0 0-25 25h4a21 21 0 1 1 42 0h4a25 25 0 0 0-25-25zm-25 25a25 25 0 0 0 25 25v-4a21 21 0 1 1-21-21h-4z"/>
+  <text x="50" y="57" font-family="sans-serif" font-weight="bold" font-size="20" fill="#0f1689" text-anchor="middle">HELM</text>
+  <path fill="#0f1689" d="M47 10v12h6V10zm0 68v12h6V78zM10 47v6h12v-6zm68 0v6h12v-6z"/>
+  <path fill="#0f1689" d="M25 25l7 7-4 4-7-7zm50 50l-7-7 4-4 7 7zm0-50l-7 7 4 4 7-7zm-50 50l7-7 4 4-7 7z"/>
+</svg>

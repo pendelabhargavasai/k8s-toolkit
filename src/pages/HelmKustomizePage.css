@@ -77,6 +77,12 @@
   height: 20px;
 }
 
+.tab-icon-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .workspace-layout {
   display: flex;
   flex-direction: row;
@@ -152,14 +158,21 @@
   overflow-y: auto;
 }
 
-.file-tree h4 {
+.file-tree-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.file-tree-header h4 {
   font-size: 0.85rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--glass-border);
+  margin: 0;
 }
 
 .tree-list {
