@@ -77,12 +77,6 @@
   height: 20px;
 }
 
-.tab-icon-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
 .workspace-layout {
   display: flex;
   flex-direction: row;

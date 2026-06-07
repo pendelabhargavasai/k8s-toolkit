@@ -88,13 +88,13 @@ export default function HelmKustomizePage() {
           className={`tab-btn helm-tab ${activeTab === 'helm' ? 'active' : ''}`}
           onClick={() => setActiveTab('helm')}
         >
-          <img src="/helm-logo.svg" alt="Helm" className="tab-icon-img" /> Helm Chart Generator
+          <Anchor className="tab-icon" /> Helm Chart Generator
         </button>
         <button 
           className={`tab-btn kustomize-tab ${activeTab === 'kustomize' ? 'active' : ''}`}
           onClick={() => setActiveTab('kustomize')}
         >
-          <img src="/kustomize-logo.svg" alt="Kustomize" className="tab-icon-img" /> Kustomize Overlays
+          <Layers className="tab-icon" /> Kustomize Overlays
         </button>
         <button 
           className={`tab-btn compare-tab ${activeTab === 'compare' ? 'active' : ''}`}
