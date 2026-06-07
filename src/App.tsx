@@ -13,6 +13,7 @@ import BestPracticesPage from './pages/BestPracticesPage';
 import TroubleshootingPage from './pages/TroubleshootingPage';
 import CostCalculatorPage from './pages/CostCalculatorPage';
 import CheatSheetPage from './pages/CheatSheetPage';
+import HelmKustomizePage from './pages/HelmKustomizePage';
 import SearchModal from './components/SearchModal';
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route path="/troubleshoot" element={<TroubleshootingPage />} />
           <Route path="/cost-calculator" element={<CostCalculatorPage />} />
           <Route path="/cheatsheets" element={<CheatSheetPage />} />
+          <Route path="/package-deploy" element={<HelmKustomizePage />} />
         </Routes>
       </div>
     </BrowserRouter>

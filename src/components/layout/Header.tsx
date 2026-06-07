@@ -40,6 +40,7 @@ export default function Header({ onSearchOpen }: HeaderProps) {
     { path: '/troubleshoot', label: 'Troubleshooting' },
     { path: '/cost-calculator', label: 'Cost Calculator' },
     { path: '/cheatsheets', label: 'Cheat Sheets' },
+    { path: '/package-deploy', label: 'Helm & Kustomize' },
   ];
 
   return (
