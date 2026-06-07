@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Network, Server, Box, ArrowRightLeft, Lock, Globe, Layers, Shield } from 'lucide-react';
+import { Network, Server, Box, ArrowRightLeft, Lock, Globe, Layers } from 'lucide-react';
 import { architectures } from '../data/architectures';
 import type { ArchCategory, ArchId, Architecture } from '../data/architectures';
 import './ArchitecturePage.css';
